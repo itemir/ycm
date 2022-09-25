@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ site.name }} - Log In{% endblock %}
+
+{% block content %}
+<h4>Log In</h4>
+<form method='post'>
+  {% csrf_token %}
+  <table class='table table-borderless' style='width: 400px;'>
+      {{ form.as_table }}
+  </table>
+  <button type='submit' class='btn btn-primary'>Log In</button>
+</form>
+<script>
+  $('input').addClass('form-control');
+</script>
+{% endblock %}

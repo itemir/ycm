@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+   crossorigin=""></script>
+   <script src="{% static 'js/leaflet.rotatedMarker.js' %}"></script>
+   <style>
+       html, body, #map {
+          height: 100%;
+          width: 100%;
+       }
+   </style>
+{% endblock %}
+{% block main %}
+   <div id="map"></div>
+   <script>
+	var map = L.map('map').setView([39.8283, -98.5795], 5);
+
+	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    		maxZoom: 18,
+    		attribution: '© OpenStreetMap'
+	}).addTo(map);
+
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+           	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+           	maxZoom: 18
+        }).addTo(map);
+
+        var sailBoatIcon = L.icon({
+	  iconUrl: '{% static "img/sailboaticon.png" %}',
+          iconSize:     [16, 32], // size of the icon
+          iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+        });
+        $.get('{% url "ajax_vessels_list" %}', function(data) {
+  	  var topLeft = { lat: -90, lng: 180 }
+  	  var bottomRight = { lat: 90, lng: -180 }
+
+	  for (i=0;i<data.length;i++) {
+	    let vessel=data[i];
+
+	    topLeft.lat = Math.max(topLeft.lat, vessel.latitude);
+    	    topLeft.lng = Math.min(topLeft.lng, vessel.longitude);
+    	    bottomRight.lat = Math.min(bottomRight.lat, vessel.latitude);
+    	    bottomRight.lng = Math.max(bottomRight.lng, vessel.longitude);
+
+	    let latlng = L.latLng(vessel.latitude, vessel.longitude);
+	    let boat =  L.marker(latlng, {
+	      rotationAngle: vessel.heading,
+	      icon: sailBoatIcon
+	    });
+	    let date = new Date(vessel.ts);
+	    let popup = `<table>` +
+			  `<tr><td><strong>Vessel Name:</strong></td><td>${vessel.name}</td</tr>` +
+			  `<tr><td><strong>Position Received:</strong></td><td>${date.toLocaleString()}</td</tr>` +
+		       `</table>`;
+   	    boat.addTo(map).bindPopup(popup);
+	  }
+
+  	  map.fitBounds([
+    	    [topLeft.lat, topLeft.lng],
+    	    [bottomRight.lat, bottomRight.lng]
+  	  ]);
+	});
+   </script>
+{% endblock %}

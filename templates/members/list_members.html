@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ request.site.name }} - Member List{% endblock %}
+
+{% block content %}
+<div class='row justify-content-center'>
+  <div class='col-md-6'>
+    <table class='table table-striped'>
+      <tr>
+        <th>Name</th>
+	<th>Boat Name</th>
+      </tr>
+      {% for member in members %}
+        <tr>
+	  <td>{{ member.get_full_name }}</td>
+	  <td>{{ member.vessel.name }}</td>
+	</tr>
+      {% endfor %}
+    </table>
+</div>
+{% endblock %}
