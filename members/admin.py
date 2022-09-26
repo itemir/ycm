@@ -4,11 +4,11 @@ from .models import Member
 
 class MemberAdmin(UserAdmin):
     model = Member 
-    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'is_active','vessel',)
-    list_filter = ('email', 'first_name', 'last_name', 'is_staff', 'is_active','vessel',)
+    list_display = ('email', 'first_name', 'last_name', 'is_superuser', 'is_staff', 'is_active','vessel',)
+    list_filter = ('email', 'first_name', 'last_name', 'is_superuser', 'is_staff', 'is_active','vessel',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+        ('Permissions', {'fields': ('is_superuser', 'is_staff', 'is_active')}),
         ('Personal Information', {'fields': ('first_name', 'last_name')}),
         ('Vessel Information', {'fields': ('vessel',)}),
 
@@ -16,7 +16,7 @@ class MemberAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name', 'password1', 'password2', 'is_staff', 'is_active','vessel')}
+            'fields': ('email', 'first_name', 'last_name', 'password1', 'password2', 'is_superuser', 'is_staff', 'is_active','vessel')}
         ),
     )
     search_fields = ('email',)

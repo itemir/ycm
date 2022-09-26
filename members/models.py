@@ -42,6 +42,7 @@ class Member(AbstractUser):
     website = models.CharField(_('website'), max_length=255, null=True)
     instagram_url = models.CharField(_('instagram url'), max_length=255, null=True)
     facebook_url = models.CharField(_('facebook_url'), max_length=255, null=True)
+    privacy_mode = models.BooleanField(_('privacy_mode'), default=False)
     vessel = models.ForeignKey(Vessel, related_name='owners', on_delete=models.CASCADE, null=True)
 
     USERNAME_FIELD = 'email'

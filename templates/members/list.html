@@ -12,8 +12,8 @@
       </tr>
       {% for member in members %}
         <tr>
-	  <td>{{ member.get_full_name }}</td>
-	  <td>{{ member.vessel.name }}</td>
+	  <td><a href="{% url 'member_detail' member.id %}">{{ member.get_full_name }}</a></td>
+	  <td><a href="{% url 'vessel_detail' member.vessel.id %}">{{ member.vessel.name }}</a></td>
 	</tr>
       {% endfor %}
     </table>

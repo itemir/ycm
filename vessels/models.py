@@ -13,6 +13,8 @@ class VesselPositionsLastRetrieved(models.Model):
 
 class Vessel(models.Model):
     name = models.CharField(max_length=100, db_index=True, null=True)
+    make_and_model = models.CharField(max_length=255, null=True, blank=True)
+    year_built = models.IntegerField(null=True, blank=True)
     tracking_url = models.CharField(max_length=255, null=True, blank=True)
     mmsi = models.BigIntegerField(null=True, blank=True)
     position_received_on = models.DateTimeField(null=True, blank=True)
@@ -21,6 +23,7 @@ class Vessel(models.Model):
     boat_type = models.IntegerField(null=True, blank=True)
     heading = models.FloatField(null=True, blank=True)
     speed = models.FloatField(null=True, blank=True)
+    privacy_mode = models.BooleanField(null=True, default=False)
     created_on = models.DateTimeField(auto_now_add=True)
     class Meta:
         unique_together = ['name', 'mmsi']

@@ -53,9 +53,12 @@
 	      icon: sailBoatIcon
 	    });
 	    let date = new Date(vessel.ts);
+	    let vesselName = `<a href="${vessel.url}">${vessel.name}</a>`;
 	    let popup = `<table>` +
-			  `<tr><td><strong>Vessel Name:</strong></td><td>${vessel.name}</td</tr>` +
-			  `<tr><td><strong>Position Received:</strong></td><td>${date.toLocaleString()}</td</tr>` +
+			  `<tr><td><strong>Boat: </strong></td><td>${vesselName}</td</tr>` +
+			  `<tr><td><strong>Make and Model: </strong></td><td>${vessel.make_and_model}</td</tr>` +
+			  `<tr><td><strong>Year Built: </strong></td><td>${vessel.year_built}</td</tr>` +
+			  `<tr><td><strong>Received: </strong></td><td>${date.toLocaleString()}</td</tr>` +
 		       `</table>`;
    	    boat.addTo(map).bindPopup(popup);
 	  }

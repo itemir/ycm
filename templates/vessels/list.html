@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ request.site.name }} - Vessel List{% endblock %}
+
+{% block content %}
+<div class='row justify-content-center'>
+  <div class='col-md-6'>
+    <table class='table table-striped'>
+      <tr>
+        <th>Boat Name</th>
+	<th>Owners</th>
+      </tr>
+      {% for vessel in vessels %}
+        <tr>
+	  <td><a href="{% url 'vessel_detail' vessel.id %}">{{ vessel.name }}</a></td>
+	  <td>
+          {% for owner in vessel.owners.all %}
+          <a href="{% url 'member_detail' owner.id %}">{{ owner.get_full_name }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+          </td>
+	</tr>
+      {% endfor %}
+    </table>
+</div>
+{% endblock %}

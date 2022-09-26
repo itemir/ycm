@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ request.site.name }} - Member List{% endblock %}
+
+{% block content %}
+<div class='row justify-content-center'>
+  <div class='col-md-6'>
+    <table class='table table-striped'>
+      <tr>
+        <th>Name:</th>
+	<td>{{ member.get_full_name }}</td>
+      </tr>
+      {% if not member.privacy_mode %}
+      <tr>
+        <th>E-mail address:</th>
+	<td><a href='mailto:{{ member.email }}'>{{ member.email }}</a></td>
+      </tr>
+      <tr>
+        <th>Phone Number:</th>
+	<td>{{ member.phone_number }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <th>Boat:</th>
+	<td><a href="{% url 'vessel_detail' member.vessel.id %}">{{ member.vessel.name }}</a></td>
+      </tr>
+    </table>
+</div>
+{% endblock %}

@@ -137,7 +137,9 @@ LOGOUT_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'members.Member'
 
-AISHUB_API_KEY = None # Should be set in local_settings
+# Below settings should be updated in local_settings
+AISHUB_API_KEY = None
+DEFAULT_FROM_EMAIL = 'noreply@yourdomain.com'
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
